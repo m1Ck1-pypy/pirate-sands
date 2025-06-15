@@ -1,7 +1,6 @@
-# [Pirate Sands]
+# Pirate Sands
 
-[A lightweight desktop application built with Rust, featuring a modern UI, audio playback capabilities, and system notifications.]
-
+A lightweight desktop application built with Rust, featuring a modern UI, audio playback capabilities, and system notifications.
 ![Screenshot APP](https://github.com/user-attachments/assets/d437f0f0-e67e-4689-ba09-3addf28eedb9)
 
 ## Features
