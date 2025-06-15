@@ -3,12 +3,12 @@ use rodio::{Decoder, OutputStream, Source};
 
 pub fn show_notification() {
     if let Err(e) = Notification::new()
-        .summary("Таймер закончился. Сделайте перерыв")
-        .body("Время вышло")
+        .summary("The timer has ended. Take a break")
+        .body("Time's up")
         .icon("clock")
         .show()
     {
-        eprintln!("Ошибка уведомления! {}", e);
+        eprintln!("Notification error! {e}");
     }
 }
 
