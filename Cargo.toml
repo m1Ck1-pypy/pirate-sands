@@ -1,0 +1,12 @@
+[package]
+name = "pirate-sands"
+version = "0.1.0"
+edition = "2024"
+include = ["aseets/*"]
+
+[dependencies]
+tokio = { version = "1.45.1", features = ["full"] }
+egui = { version = "0.31.1" }
+eframe = "0.31.0"
+rodio = "0.20.1"
+notify-rust = "4.11.7"
