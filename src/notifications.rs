@@ -8,7 +8,7 @@ pub fn show_notification() {
         .icon("clock")
         .show()
     {
-        eprintln!("Notification error! {e}");
+        eprintln!("Notification error! {}", e);
     }
 }
 
