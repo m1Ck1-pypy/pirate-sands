@@ -21,6 +21,6 @@
 ## Install
 ### Source code build
 ```bash
-https://github.com/m1Ck1-pypy/pirate-sands.git
+git clone https://github.com/m1Ck1-pypy/pirate-sands.git
 cd pirate-sands
 cargo build --release
