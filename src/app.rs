@@ -1,4 +1,5 @@
 use crate::notifications::{notify_sound, show_notification};
+
 use std::{
     sync::{Arc, Mutex},
     time::Duration,

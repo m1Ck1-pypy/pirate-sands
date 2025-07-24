@@ -5,6 +5,7 @@ mod app;
 mod gui;
 mod inputs;
 mod notifications;
+mod text_lib;
 
 use app::Timer;
 use std::{
