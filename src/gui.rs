@@ -3,7 +3,7 @@
 
 use crate::app::{Timer, TimerState, TimerStateType};
 use crate::inputs::inputs_gui;
-use crate::text_lib::{Language, Titles, Translator};
+use crate::text_lib::{Titles, Translator};
 use eframe::egui::Color32;
 use egui::epaint::{
     CornerRadius,
