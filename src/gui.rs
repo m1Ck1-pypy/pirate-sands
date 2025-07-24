@@ -3,6 +3,7 @@
 
 use crate::app::{Timer, TimerState, TimerStateType};
 use crate::inputs::inputs_gui;
+use crate::text_lib::{Language, Titles, Translator};
 use eframe::egui::Color32;
 use egui::epaint::{
     CornerRadius,
@@ -40,6 +41,7 @@ pub struct MyGuiApp {
     pub timer: Arc<Mutex<Timer>>,
     pub allow_exit: bool,
     pub is_sound_notify: bool,
+    pub system_lang: Translator,
 }
 
 impl MyGuiApp {
@@ -53,6 +55,7 @@ impl MyGuiApp {
         };
 
         let now = Instant::now();
+        let system_lang = Translator::default();
 
         cc.egui_ctx.set_zoom_factor(0.9);
         add_font(&cc.egui_ctx);
@@ -63,6 +66,7 @@ impl MyGuiApp {
             next_repaint: now + Duration::from_secs(1),
             allow_exit: false,
             is_sound_notify: true,
+            system_lang,
         }
     }
 
@@ -99,6 +103,10 @@ impl MyGuiApp {
             self.minutes += 1;
         }
         timer.set_one_minute();
+    }
+
+    pub fn get_translator_str(&self, title: Titles) -> &'static str {
+        self.system_lang.translate(title)
     }
 }
 
@@ -148,9 +156,9 @@ impl eframe::App for MyGuiApp {
                     ui.add_space(15.0);
                     ui.add(
                         egui::Label::new(
-                            egui::RichText::new("Pirate sands Timer")
+                            egui::RichText::new(self.get_translator_str(Titles::Header))
                                 .heading()
-                                .size(48.0),
+                                .size(42.0),
                         )
                         .wrap(),
                     );
@@ -158,7 +166,7 @@ impl eframe::App for MyGuiApp {
 
                     ui.add(
                         egui::Label::new(
-                            egui::RichText::new("⌛ Working hours ⌛")
+                            egui::RichText::new(self.get_translator_str(Titles::Subheader))
                                 .heading()
                                 .size(20.0)
                                 .color(Color32::GOLD),
@@ -171,7 +179,7 @@ impl eframe::App for MyGuiApp {
                                 .add_sized(
                                     [150., 50.],
                                     egui::Slider::new(&mut self.minutes, 0..=120)
-                                        .text("MINUTES")
+                                        .text(self.system_lang.translate(Titles::Slider))
                                         .show_value(true),
                                 )
                                 .changed()
@@ -190,14 +198,14 @@ impl eframe::App for MyGuiApp {
 
                     ui.add(egui::Checkbox::new(
                         &mut self.is_sound_notify,
-                        "Sound notification",
+                        self.system_lang.translate(Titles::SoundNotification),
                     ));
 
                     ui.add_space(10.0);
                     if no_active_timer {
                         if ui
                             .add(button(ButtonProps {
-                                text: "▶ Start",
+                                text: self.get_translator_str(Titles::StartButton),
                                 size: Some(Vec2::new(230.0, 50.0)),
                                 color: None,
                                 radius: None,
@@ -208,7 +216,7 @@ impl eframe::App for MyGuiApp {
                         };
                     } else if ui
                         .add(button(ButtonProps {
-                            text: "➕ one minute",
+                            text: self.get_translator_str(Titles::AddMinutes),
                             size: Some(Vec2::new(230.0, 50.0)),
                             color: Some(Color32::ORANGE),
                             radius: None,
@@ -230,7 +238,7 @@ impl eframe::App for MyGuiApp {
                     ui.add_space(20.0);
                     ui.add(
                         egui::Label::new(egui::RichText::new(
-                            "Press S: Start/Pause, A: +1m, R: Reset, Q: Quit",
+                            self.get_translator_str(Titles::Help),
                         ))
                         .wrap(),
                     );
@@ -242,9 +250,15 @@ impl eframe::App for MyGuiApp {
 
 fn current_state_text(state: &mut MyGuiApp) -> String {
     match state.current_state() {
-        TimerState::Running => "Time is passing, FULL FOCUS.".to_string(),
-        TimerState::Paused => "Pause, you need to take a break".to_string(),
-        TimerState::Stopped => "The timer is not running".to_string(),
+        TimerState::Running => state
+            .system_lang
+            .translate(Titles::TimerRunning)
+            .to_string(),
+        TimerState::Paused => state.system_lang.translate(Titles::TimerPaused).to_string(),
+        TimerState::Stopped => state
+            .system_lang
+            .translate(Titles::TimerStopped)
+            .to_string(),
     }
 }
 
